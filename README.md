@@ -4,7 +4,7 @@ A CLI tool
 
 - Fetch free games from [Steam Store](https://store.steampowered.com/search/?hwtype=0&maxprice=free&category1=998%2C994%2C21&specials=1&ndl=1).
 - Send notifications to Telegram, Bark, Email, QQ, PushPlus(Wechat), DingTalk, PushDeer, Discord and MeoW.
-- Auto claim detected Steam free games with ASF `addlicense` command.
+- Auto claim free games with ASF `addlicense` command.
 
 Demo Telegram Channel [@azhuge233_FreeGames](https://telegram.me/azhuge233_FreeGames)
 
