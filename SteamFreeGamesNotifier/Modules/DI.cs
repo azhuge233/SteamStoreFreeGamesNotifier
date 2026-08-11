@@ -1,0 +1,49 @@
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using NLog.Extensions.Logging;
+using SteamFreeGamesNotifier.Models.Config;
+using SteamFreeGamesNotifier.Services;
+using SteamFreeGamesNotifier.Services.Notifiers;
+
+namespace SteamFreeGamesNotifier.Modules {
+	internal class DI {
+		private static readonly string BasePath = AppDomain.CurrentDomain.BaseDirectory;
+
+		private static readonly IConfigurationRoot logConfig = new ConfigurationBuilder()
+			.SetBasePath(BasePath)
+			.Build();
+		private static readonly IConfigurationRoot configuration = new ConfigurationBuilder()
+			.SetBasePath(BasePath)
+			.AddJsonFile($"Config{Path.DirectorySeparatorChar}config.json", optional: false, reloadOnChange: true)
+			.Build();
+
+		internal static IServiceProvider BuildAll() {
+			return new ServiceCollection()
+			   .AddTransient<JsonOP>()
+			   .AddTransient<ConfigValidator>()
+			   .AddTransient<Scraper>()
+			   .AddTransient<Parser>()
+			   .AddTransient<NotifyOP>()
+			   .AddTransient<Bark>()
+			   .AddTransient<TelegramBot>()
+			   .AddTransient<Email>()
+			   .AddTransient<QQHttp>()
+			   .AddTransient<QQWebSocket>()
+			   .AddTransient<PushPlus>()
+			   .AddTransient<DingTalk>()
+			   .AddTransient<PushDeer>()
+			   .AddTransient<Discord>()
+			   .AddTransient<Meow>()
+			   .AddTransient<ASFOP>()
+			   .Configure<Config>(configuration)
+			   .AddLogging(loggingBuilder => {
+				   // configure Logging with NLog
+				   loggingBuilder.ClearProviders();
+				   loggingBuilder.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
+				   loggingBuilder.AddNLog(logConfig);
+			   })
+			   .BuildServiceProvider();
+		}
+	}
+}

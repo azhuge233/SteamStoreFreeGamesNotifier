@@ -1,0 +1,50 @@
+{
+  "EnableTelegram": true,
+  "TelegramToken": "",
+  "TelegramChatID": "",
+
+  "EnableBark": false,
+  "BarkAddress": "https://api.day.app",
+  "BarkToken": "",
+
+  "EnableEmail": false,
+  "SMTPServer": "",
+  "SMTPPort": 465,
+  "FromEmailAddress": "",
+  "ToEmailAddress": "",
+  "AuthAccount": "",
+  "AuthPassword": "",
+
+  "EnableQQHttp": false,
+  "QQHttpAddress": "127.0.0.1",
+  "QQHttpPort": 3000,
+  "QQHttpToken": "",
+
+  "EnableQQWebSocket": false,
+  "QQWebSocketAddress": "127.0.0.1",
+  "QQWebSocketPort": 3001,
+  "QQWebSocketToken": "",
+
+  "ToQQID": "",
+
+  "EnablePushPlus": false,
+  "PushPlusToken": "",
+
+  "EnableDingTalk": false,
+  "DingTalkBotToken": "",
+
+  "EnablePushDeer": false,
+  "PushDeerToken": "",
+
+  "EnableDiscord": false,
+  "DiscordWebhookURL": "",
+
+  "EnableMeow": false,
+  "MeowAddress": "https://api.chuckfang.com",
+  "MeowNickname": "",
+
+  "EnableASF": false,
+  "ASFIPCUrl": "",
+  "ASFIPCPassword": "",
+  "NotifyASFResult": false
+}
