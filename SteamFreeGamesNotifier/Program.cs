@@ -21,8 +21,8 @@ namespace SteamFreeGamesNotifier {
 					servicesProvider.GetRequiredService<ConfigValidator>().CheckValid();
 
 					// Get page source
-					//var source = await servicesProvider.GetRequiredService<Scraper>().GetSource();
-					var source = File.ReadAllText($"{AppDomain.CurrentDomain.BaseDirectory}test.html");
+					var source = await servicesProvider.GetRequiredService<Scraper>().GetSource();
+					// var source = File.ReadAllText($"{AppDomain.CurrentDomain.BaseDirectory}test.html");
 
 					// Parse page source
 					var parseResult = servicesProvider.GetRequiredService<Parser>().Parse(source, oldRecord);
