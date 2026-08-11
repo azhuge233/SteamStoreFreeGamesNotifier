@@ -1,0 +1,62 @@
+name: Publish
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ master ]
+    paths-ignore:
+      - '**/**.md'
+      - '.github/**'
+
+jobs:
+  publish:
+    name: Publish the app
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+    - name: Checkout source code
+      uses: actions/checkout@v5
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v5
+      with:
+        dotnet-version: 10.0.x
+    
+    - name: Publish
+      run: |
+        dotnet restore
+        dotnet publish -c release -r win-x64 -p:PublishDir="$GITHUB_WORKSPACE/bin/release/win-x64" --sc
+        rm -f $GITHUB_WORKSPACE/bin/release/win-x64/aspnetcorev2_inprocess.dll
+      
+    - name: Create Zip
+      run: |
+        zip -qq -r SSFG-win-x64.zip win-x64/*
+      working-directory: bin/release
+
+    - name: Recreate Latest Release
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        set -e
+
+        echo "Deleting existing Release..."
+
+        if gh release view latest >/dev/null 2>&1; then
+          gh release delete latest --yes --cleanup-tag
+        else
+          echo "Release 'latest' does not exist."
+        fi
+
+        git tag -d latest >/dev/null 2>&1 || true
+
+        echo "Creating new Release..."
+
+        gh release create latest \
+          bin/release/*.zip \
+          --target "$GITHUB_SHA" \
+          --title "Latest" \
+          --notes "" \
+          --latest
