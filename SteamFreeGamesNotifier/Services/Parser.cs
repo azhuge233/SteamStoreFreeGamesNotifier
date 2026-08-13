@@ -33,7 +33,7 @@ namespace SteamFreeGamesNotifier.Services {
 
 						appID = $"app/{appID}";
 						gameStoreLink = gameStoreLink.Split('?').FirstOrDefault();
-						gameReview = gameReview.Split("<br>", 2).FirstOrDefault().Trim();
+						gameReview = gameReview.Split("\u0026lt;", 2).FirstOrDefault().Trim();
 
 						var newFreeGameRecord = new FreeGameRecord {
 							AppID = appID,
@@ -49,7 +49,7 @@ namespace SteamFreeGamesNotifier.Services {
 
 						parseResult.Records.Add(newFreeGameRecord);
 
-						if (oldRecords.Count == 0 || oldRecords.Any(record => record.AppID == newFreeGameRecord.AppID)) {
+						if (oldRecords.Count == 0 || !oldRecords.Any(record => record.AppID == newFreeGameRecord.AppID)) {
 							_logger.LogInformation(ParseStrings.infoFoundNewFreeGame, newFreeGameRecord.Name);
 							parseResult.NotifyRecords.Add(newFreeGameRecord);
 						} else _logger.LogDebug(ParseStrings.debugFoundInPreviousRecord, newFreeGameRecord.Name);
